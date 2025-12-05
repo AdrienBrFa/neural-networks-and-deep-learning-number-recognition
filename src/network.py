@@ -58,8 +58,13 @@ class Network(object):
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in range(0, n, mini_batch_size)]
-            for mini_batch in mini_batches:
+            total_batches = len(mini_batches)
+            for batch_idx, mini_batch in enumerate(mini_batches):
                 self.update_mini_batch(mini_batch, eta)
+                # Print progress every 1000 mini-batches
+                if (batch_idx + 1) % 1000 == 0:
+                    print("  Processing mini-batch {0}/{1}".format(
+                        batch_idx + 1, total_batches))
             if test_data:
                 print("Epoch {0}: {1} / {2}".format(
                     j, self.evaluate(test_data), n_test))
